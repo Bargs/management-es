@@ -1,30 +1,11 @@
-import exampleRoute from './server/routes/example';
+import { resolve } from 'path';
 
 export default function (kibana) {
   return new kibana.Plugin({
-    require: ['elasticsearch'],
-
-    uiExports: {
-      app: {
-        title: 'Testplug',
-        description: 'An awesome Kibana plugin',
-        main: 'plugins/testplug/app'
-      },
-      hacks: [
-        'plugins/testplug/hack'
-      ]
-    },
-
-    config(Joi) {
-      return Joi.object({
-        enabled: Joi.boolean().default(true),
-      }).default();
-    },
+    require: ['i18n'],
 
     init(server, options) {
-      // Add server routes and initalize the plugin here
-      exampleRoute(server);
+      server.plugins.i18n.registerPluginLanguageTranslations(resolve(__dirname, 'i18n'));
     }
-
   });
 };
